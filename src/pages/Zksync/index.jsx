@@ -438,6 +438,12 @@ function Zksync() {
                     align: "center",
                 },
                 {
+                    title: "WETH",
+                    dataIndex: ['zksEraBalance', "zks2_wethBalance"],
+                    key: "zks2_wethBalance",
+                    align: "center",
+                },
+                {
                     title: "Tx",
                     dataIndex: ['zksEraBalance', "zks2_tx_amount"],
                     key: "zks2_tx_amount",
@@ -694,6 +700,8 @@ function Zksync() {
         let totalZkLiteEthBalance = 0;
         let totalZkEraEthBalance = 0;
         let totalZkEraUsdcBalance = 0;
+        let totalZkEraWethBalance = 0;
+
         let totalL1Tol2Amount = 0;
         let totalL2Tol1Amount = 0;
         let totalAmount = 0;
@@ -704,6 +712,7 @@ function Zksync() {
             totalZkLiteEthBalance += parseFloat(row.zksLiteBalance?.zks1_balance || 0);
             totalZkEraEthBalance += parseFloat(row.zksEraBalance?.zks2_balance || 0);
             totalZkEraUsdcBalance += parseFloat(row.zksEraBalance?.zks2_usdcBalance || 0);
+            totalZkEraWethBalance += parseFloat(row.zksEraBalance?.zks2_wethBalance || 0);
             totalL1Tol2Amount += parseFloat(row.bridge?.l1Tol2Amount || 0);
             totalL2Tol1Amount += parseFloat(row.bridge?.l2Tol1Amount || 0);
             totalAmount += parseFloat(row.totalExchangeAmount || 0);
@@ -750,48 +759,55 @@ function Zksync() {
                             </Text>
                         </div>
                     </Table.Summary.Cell>
-                    <Table.Summary.Cell index={11}/>
+                    <Table.Summary.Cell index={11}>
+                        <div style={centeredTextStyle}>
+                            <Text type="danger">
+                                {formatNumber(totalZkEraWethBalance)}
+                            </Text>
+                        </div>
+                    </Table.Summary.Cell>
                     <Table.Summary.Cell index={12}/>
                     <Table.Summary.Cell index={13}/>
                     <Table.Summary.Cell index={14}/>
-                    <Table.Summary.Cell index={15}>
+                    <Table.Summary.Cell index={15}/>
+                    <Table.Summary.Cell index={16}>
                         <div style={centeredTextStyle}>
                             <Text type="danger">
                                 {formatNumber(totalL1Tol2Amount)}
                             </Text>
                         </div>
                     </Table.Summary.Cell>
-                    <Table.Summary.Cell index={16}>
+                    <Table.Summary.Cell index={17}>
                         <div style={centeredTextStyle}>
                             <Text type="danger">
                                 {formatNumber(totalL2Tol1Amount)}
                             </Text>
                         </div>
                     </Table.Summary.Cell>
-                    <Table.Summary.Cell index={17}/>
                     <Table.Summary.Cell index={18}/>
                     <Table.Summary.Cell index={19}/>
                     <Table.Summary.Cell index={20}/>
-                    <Table.Summary.Cell index={21}>
+                    <Table.Summary.Cell index={21}/>
+                    <Table.Summary.Cell index={22}>
                         <div style={centeredTextStyle}>
                             <Text type="danger">
                                 {formatNumber(totalAmount, 2)}
                             </Text>
                         </div>
                     </Table.Summary.Cell>
-                    <Table.Summary.Cell index={22}>
+                    <Table.Summary.Cell index={23}>
                         <div style={centeredTextStyle}>
                             <Text type="danger">
                                 {formatNumber(totalFee, 2)}
                             </Text>
                         </div>
                     </Table.Summary.Cell>
-                    <Table.Summary.Cell index={23}/>
                     <Table.Summary.Cell index={24}/>
                     <Table.Summary.Cell index={25}/>
                     <Table.Summary.Cell index={26}/>
                     <Table.Summary.Cell index={27}/>
                     <Table.Summary.Cell index={28}/>
+                    <Table.Summary.Cell index={29}/>
                 </Table.Summary.Row>
             </Table.Summary>
         );

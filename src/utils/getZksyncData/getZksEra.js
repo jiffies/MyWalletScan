@@ -4,7 +4,7 @@ export async function getZksEra(address) {
     try {
         let url = "https://block-explorer-api.mainnet.zksync.io/address/" + address;
         const response = await axios.get(url);
-        let zks2_tx_amount, zks2_balance, zks2_usdcBalance;
+        let zks2_tx_amount, zks2_balance, zks2_usdcBalance, zks2_wethBalance;
         if ("0x000000000000000000000000000000000000800A" in response.data.balances) {
             zks2_balance = response.data.balances["0x000000000000000000000000000000000000800A"].balance;
             zks2_balance = (Number(zks2_balance) / 10 ** 18).toFixed(3);
@@ -17,10 +17,16 @@ export async function getZksEra(address) {
         } else {
             zks2_usdcBalance = 0;
         }
+        if ("0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91" in response.data.balances) {
+            zks2_wethBalance = response.data.balances["0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91"].balance;
+            zks2_wethBalance = (Number(zks2_wethBalance) / 10 ** 18).toFixed(3);
+        } else {
+            zks2_wethBalance = 0;
+        }
         zks2_tx_amount = response.data.sealedNonce;
-        return {zks2_balance, zks2_tx_amount, zks2_usdcBalance};
+        return {zks2_balance, zks2_tx_amount, zks2_usdcBalance, zks2_wethBalance};
     } catch (error) {
         console.error(error);
-        return {zks2_balance: "-", zks2_tx_amount: "-", zks2_usdcBalance: "-"};
+        return {zks2_balance: "-", zks2_tx_amount: "-", zks2_usdcBalance: "-", zks2_wethBalance: "-"};
     }
 }
