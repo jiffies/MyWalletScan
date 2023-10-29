@@ -706,7 +706,22 @@ function Zksync() {
         let totalL2Tol1Amount = 0;
         let totalAmount = 0;
         let totalFee = 0;
+        let txMedian = 0;
+// 定义中位数函数
+        const median = function (values) {
+            const sorted = values.slice().sort((a, b) => a - b);
+            const length = sorted.length;
+            const mid = Math.floor(length / 2);
 
+            if (length % 2 === 0) {
+                return (sorted[mid - 1] + sorted[mid]) / 2;
+            } else {
+                return sorted[mid];
+            }
+        }
+        const ethTxAmounts = pageData.map(row => row.zksEraBalance?.zks2_tx_amount||0);
+        console.log(ethTxAmounts)
+        txMedian = median(ethTxAmounts);
         pageData.forEach((row) => {
             totalEthBalance += parseFloat(row.eth_balance || 0);
             totalZkLiteEthBalance += parseFloat(row.zksLiteBalance?.zks1_balance || 0);
@@ -766,7 +781,13 @@ function Zksync() {
                             </Text>
                         </div>
                     </Table.Summary.Cell>
-                    <Table.Summary.Cell index={12}/>
+                    <Table.Summary.Cell index={12}>
+                        <div style={centeredTextStyle}>
+                            <Text type="danger">
+                                {formatNumber(txMedian, 0)}
+                            </Text>
+                        </div>
+                    </Table.Summary.Cell>
                     <Table.Summary.Cell index={13}/>
                     <Table.Summary.Cell index={14}/>
                     <Table.Summary.Cell index={15}/>
